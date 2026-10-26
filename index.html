@@ -1,26 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BIDA IBBUL CONNECT</title>
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f8f5;--sf:#fff;--tx:#14211a;--mu:#5b6b61;--pr:#0f6b3d;--pr2:#e3f2ea;--bd:#dbe3dd;--ac:#c8922a;--dg:#b3261e}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1511;--sf:#17211b;--tx:#e8efe9;--mu:#9bab a1;--mu:#9bab9f;--pr:#4cc28a;--pr2:#183626;--bd:#2a382f;--ac:#e0b04f;--dg:#f2918b}}
-:root[data-theme="dark"]{--bg:#0e1511;--sf:#17211b;--tx:#e8efe9;--mu:#9bab9f;--pr:#4cc28a;--pr2:#183626;--bd:#2a382f;--ac:#e0b04f;--dg:#f2918b}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#f6f8f5;--sf:#fff;--tx:#14211a;--mu:#5b6b61;--pr:#0f6b3d;--pr2:#e3f2ea;--bd:#dbe3dd;--ac:#c8922a;--dg:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1511;--sf:#17211b;--tx:#e8efe9;--mu:#9bab9f;--pr:#4cc28a;--pr2:#183626;--bd:#2a382f;--ac:#e0b04f;--dg:#f2918b}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--sf);border-bottom:1px solid var(--bd);z-index:5}
+header{position:sticky;top:0;background:var(--sf);border-bottom:1px solid var(--bd);z-index:5}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;max-width:1000px;margin:auto}
 .logo{font-weight:800;color:var(--pr);text-decoration:none;font-size:1.05rem}
 nav{display:flex;gap:4px;overflow-x:auto;padding:0 12px 8px;max-width:1000px;margin:auto}
 nav a{white-space:nowrap;padding:6px 12px;border-radius:99px;color:var(--mu);text-decoration:none;font-size:.9rem}
 nav a.on{background:var(--pr2);color:var(--pr);font-weight:600}
-main{max-width:1000px;margin:auto;padding:16px}
+main{max-width:1000px;margin:auto;padding:16px;min-height:60vh}
 h1{font-size:1.6rem;margin:.2em 0}h2{font-size:1.2rem;margin:1.2em 0 .5em}
-.hero{background:linear-gradient(135deg,var(--pr),#0a4a2a);color:#fff;border-radius:16px;padding:28px 20px}
-.hero p{opacity:.92;max-width:560px}
+.hero{background:linear-gradient(135deg,var(--pr),#0a4a2a);color:#fff;border-radius:16px;padding:28px 20px}.hero p{opacity:.92;max-width:560px}
 .btn{display:inline-block;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer;background:var(--pr);color:#fff;text-decoration:none}
-.btn.o{background:transparent;color:var(--pr);border:1px solid var(--pr)}.btn.w{background:#fff;color:#0a4a2a}.btn.d{background:var(--dg)}.btn.s{padding:6px 10px;font-size:.85rem}
+.btn.o{background:transparent;color:var(--pr);border:1px solid var(--pr)}.btn.w{background:#fff;color:#0a4a2a}.btn.d{background:var(--dg);color:#fff}.btn.s{padding:6px 10px;font-size:.85rem;margin:2px 0}
 .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .card{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:14px}
 .av{width:52px;height:52px;border-radius:50%;background:var(--pr2);color:var(--pr);display:grid;place-items:center;font-weight:700;margin-bottom:8px}
@@ -29,62 +25,115 @@ input,select,textarea{width:100%;padding:10px;border:1px solid var(--bd);border-
 label{font-size:.88rem;font-weight:600}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
 .chk{display:flex;align-items:center;gap:8px;font-weight:400}.chk input{width:auto;margin:0}
 .form{max-width:440px;margin:auto}.note{background:var(--pr2);border-radius:10px;padding:10px;font-size:.88rem;margin:10px 0}
-.admin{border-top:4px solid var(--ac)}.msg{padding:10px;border-radius:10px;background:var(--pr2);margin:10px 0}
+.admin{border-top:4px solid var(--ac)}.msg{padding:10px;border-radius:10px;background:var(--pr2);margin:10px 0}.err{background:#fde7e5;color:#8c1d18}
 footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem}footer a{color:var(--mu);margin:0 6px}
-table{width:100%;border-collapse:collapse}td,th{padding:8px;border-bottom:1px solid var(--bd);text-align:left;font-size:.9rem}
-.sc{overflow-x:auto}
 </style></head><body>
-<header><div class="bar"><a class="logo" href="#home">BIDA IBBUL CONNECT</a><span id="who"></span></div><nav id="nav"></nav></header>
+<header><div class="bar"><a class="logo" href="#home">BIDA IBBUL CONNECT</a><span id="who" class="mu"></span></div><nav id="nav"></nav></header>
 <main id="app"></main>
-<footer><a href="#privacy">Privacy</a><a href="#guidelines">Guidelines</a><a href="#contact">Contact</a><a href="#admin">Admin login</a><p>Prototype with placeholder content. © BIDA IBBUL CONNECT</p></footer>
+<footer><a href="#privacy">Privacy</a><a href="#guidelines">Guidelines</a><a href="#contact">Contact</a><a href="#admin">Admin login</a><p>© BIDA IBBUL CONNECT</p></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
+const SB=supabase.createClient('https://esjvprhomofdahmpdizl.supabase.co','sb_publishable_DP2OWoX5FS4W0PGvmMBgIA_LdVoow7e',{auth:{flowType:'pkce'}});
+const BASE=location.origin+location.pathname;
 const $=s=>document.querySelector(s);
-const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const ini=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('');
-const S={user:null,admin:false,
-teams:[{y:'2025/2026',cur:true,m:[['Aisha Mohammed','President'],['Musa Ndako','Vice President'],['Hauwa Bello','General Secretary'],['Yusuf Kolo','Financial Secretary'],['Zainab Usman','PRO']]},
-{y:'2024/2025',cur:false,m:[['Ibrahim Saidu','President'],['Fatima Yakubu','Vice President'],['Abdullahi Ladan','General Secretary']]}],
-staff:[['Dr. Sample Staff','Lecturer, Computer Science','Software Engineering'],['Prof. Sample Name','Dean, Faculty of Science','Mathematics'],['Mrs. Sample Name','Student Affairs Officer','Student Welfare']],
-alumni:[['Halima Danladi','Alumni','Computer Science','2022','Data Analytics'],['Sani Garba','Alumni','Accounting','2020','Finance'],['Maryam Tanko','Alumni','Biology','2023','Healthcare'],['Umar Faruk','Alumni','Computer Science','2021','Software']],
-students:[['Khadija Aliyu','Student','Computer Science','300','Web Development'],['Ahmed Jibril','Student','Economics','200','Entrepreneurship'],['Bilkisu Sule','Student','Mathematics','400','Teaching'],['Nasir Abba','Student','Physics','100','Research']],
-news:[['Welcome to BIDA IBBUL CONNECT','The community platform is live. Register to connect with students, alumni and staff.','Announcement'],['Annual Meet & Greet','Venue and date to be announced by the executive team.','Event'],['Profile privacy update','You now control which profile details other members can see.','Update']],
-pending:[['Ruth Daniel','ruth@example.com'],['Ali Musa','ali@example.com']]};
-const pub=['home','executives','staff','alumni','students','announcements'];
-function nav(){const h=(location.hash||'#home').slice(1);$('#nav').innerHTML=pub.map(p=>`<a href="#${p}" class="${h==p?'on':''}">${p[0].toUpperCase()+p.slice(1)}</a>`).join('')+(S.user?`<a href="#" onclick="S.user=null;go('home');return false">Log out</a>`:`<a href="#login" class="${h=='login'?'on':''}">Log in</a><a href="#register">Register</a>`);
-$('#who').textContent=S.user?'Hi, '+S.user:''}
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ini=n=>(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const S={sess:null,prof:null,rows:[]};
+const approved=()=>S.prof&&(S.prof.status==='approved'||S.prof.is_admin);
+const isAdmin=()=>S.prof&&S.prof.is_admin;
+async function q(p){const {data,error}=await p;if(error){console.error(error);return null}return data}
+async function run(p){const {error}=await p;if(error){alert(error.message);return false}return true}
+function msg(id,t,bad){const e=$('#'+id);if(!e)return;e.hidden=false;e.className='msg'+(bad?' err':'');e.textContent=t}
+async function loadProf(){S.prof=null;if(S.sess){S.prof=await q(SB.from('profiles').select('*').eq('id',S.sess.user.id).maybeSingle())}}
 function pw(id,l){return `<label>${l}</label><input id="${id}" type="password" autocomplete="off"><label class="chk"><input type="checkbox" onchange="$('#${id}').type=this.checked?'text':'password'"> Show password</label><br>`}
-function people(list,kind){const q=(window.q||'').toLowerCase(),f=window.f||'';
-return `<h1>${kind}</h1>${S.user?'':'<div class="note">Log in to see full profiles and connect. Private contact details stay hidden unless a member shares them.</div>'}
-<div class="row"><input placeholder="Search name or interest" value="${esc(window.q||'')}" oninput="window.q=this.value;draw(true)"><select onchange="window.f=this.value;draw(true)"><option value="">All departments</option>${[...new Set(list.map(x=>x[2]))].map(d=>`<option ${f==d?'selected':''}>${esc(d)}</option>`).join('')}</select></div>
-<div class="grid">${list.filter(x=>(!f||x[2]==f)&&(!q||x.join(' ').toLowerCase().includes(q))).map(x=>`<div class="card"><div class="av">${ini(x[0])}</div><b>${esc(x[0])}</b><div class="mu">${esc(x[2])} ${kind=='Alumni'?'· Class of '+x[3]:'· '+x[3]+' Level'}</div><span class="tag">${esc(x[4])}</span><div><button class="btn o s" onclick="S.user?alert('Connection request sent (demo)'):go('login')">Connect</button></div></div>`).join('')||'<p class="mu">No matches.</p>'}</div>`}
-const V={
-home:()=>`<div class="hero"><h1>Connecting the BIDA community at IBBUL</h1><p>A home for BIDA students, alumni, university staff and the NABS IBBUL Chapter to meet, share and grow together.</p><a class="btn w" href="#register">Join now</a> <a class="btn o" style="color:#fff;border-color:#fff" href="#login">Log in</a></div>
-<h2>Explore</h2><div class="grid">${[['executives','NABS Executives','Meet the current team'],['staff','Staff','Mentors and lecturers'],['alumni','Alumni','Find graduates by year and field'],['students','Students','Connect with peers'],['announcements','Announcements','News and events']].map(x=>`<a class="card" style="text-decoration:none;color:inherit" href="#${x[0]}"><b>${x[1]}</b><div class="mu">${x[2]}</div></a>`).join('')}</div>`,
-executives:()=>`<h1>NABS IBBUL Chapter Executives</h1>`+S.teams.map(t=>`<h2>${t.y} ${t.cur?'<span class="tag">Current</span>':'<span class="tag" style="background:var(--bd);color:var(--mu)">Archived</span>'}</h2><div class="grid">${t.m.map(m=>`<div class="card"><div class="av">${ini(m[0])}</div><b>${esc(m[0])}</b><div class="mu">${esc(m[1])}</div></div>`).join('')}</div>`).join(''),
-staff:()=>`<h1>Staff</h1><div class="grid">${S.staff.map(x=>`<div class="card"><div class="av">${ini(x[0].replace(/^(Dr|Prof|Mrs)\. /,''))}</div><b>${esc(x[0])}</b><div class="mu">${esc(x[1])}</div><span class="tag">${esc(x[2])}</span></div>`).join('')}</div>`,
-alumni:()=>people(S.alumni,'Alumni'),students:()=>people(S.students,'Students'),
-announcements:()=>`<h1>Announcements</h1>`+S.news.map(n=>`<div class="card" style="margin-bottom:10px"><span class="tag">${esc(n[2])}</span><h3 style="margin:.3em 0">${esc(n[0])}</h3><div class="mu">${esc(n[1])}</div></div>`).join(''),
-login:()=>`<div class="form"><h1>Log in</h1><label>Email</label><input id="e" type="email">${pw('p','Password')}<button class="btn" onclick="S.user=($('#e').value||'member').split('@')[0];go('home')">Log in</button> <a href="#forgot">Forgot password?</a></div>`,
-forgot:()=>`<div class="form"><h1>Reset password</h1><label>Email</label><input type="email" id="fe"><button class="btn" onclick="$('#fm').hidden=false">Send reset link</button><div id="fm" class="msg" hidden>If that email is registered, a time-limited reset link has been sent.</div></div>`,
-register:()=>`<div class="form"><h1>Register</h1><label>Full name</label><input id="rn"><label>Email</label><input type="email"><label>I am a</label><select><option>Student</option><option>Alumni</option><option>Staff</option></select><label>Indigene of (town or LGA) *</label><input id="ri" required placeholder="e.g. Bida"><div id="rie" class="mu" style="color:var(--dg);margin:-6px 0 8px" hidden>Please enter where you are an indigene of.</div><label>Upload your indigene picture or certificate (photo or PDF, max 5 MB) *</label><input id="rf" type="file" accept="image/*,application/pdf" onchange="prev(this)"><div id="rfp" class="mu"></div><div id="rfe" class="mu" style="color:var(--dg);margin:-2px 0 8px" hidden>Please upload a photo or PDF under 5 MB.</div><div class="note">Only administrators can see this upload. It is used to verify your membership and is never shown on your public profile.</div>${pw('rp','Password')}
-<label>Profile visibility</label><label class="chk"><input type="checkbox" checked> Show my department and interests to members</label><label class="chk"><input type="checkbox"> Share my email</label><label class="chk"><input type="checkbox"> Share my phone number</label><br>
-<label class="chk"><input type="checkbox" checked> Email me about announcements and events</label><br>
-<button class="btn" onclick="if(!$('#ri').value.trim()){$('#rie').hidden=false;$('#ri').focus();return}$('#rie').hidden=true;const f=$('#rf').files[0];if(!f||f.size>5242880){$('#rfe').hidden=false;return}$('#rfe').hidden=true;$('#rm').hidden=false">Create account</button><div id="rm" class="msg" hidden>Check your email to verify your address. After verification, an administrator will approve your account.</div></div>`,
-privacy:()=>`<h1>Privacy</h1><p>We collect only what members provide. Emails and phone numbers are never shown unless you choose to share them. Passwords are stored hashed, never in readable text.</p>`,
-guidelines:()=>`<h1>Community guidelines</h1><p>Be respectful, keep information accurate, protect others’ privacy, and report abuse to an administrator.</p>`,
-contact:()=>`<h1>Contact</h1><p class="mu">Placeholder: connect@example.com · IBBUL, Lapai, Niger State</p>`,
-admin:()=>{if(!S.admin)return `<div class="form card admin"><h1>Admin portal</h1><div class="note">Separate administrator area. Demo only: use any email with the password <b>admin</b>.</div><label>Admin email</label><input id="ae" type="email">${pw('ap','Password')}<button class="btn" onclick="if($('#ap').value==='admin'){S.admin=true;draw()}else alert('Incorrect password')">Sign in</button></div>`;
-return `<div class="card admin"><h1>Administration</h1><button class="btn o s" onclick="S.admin=false;go('home')">Sign out</button>
-<h2>Pending members</h2>${S.pending.map((p,i)=>`<div class="row" style="align-items:center;margin-bottom:6px"><span>${esc(p[0])} <span class="mu">${esc(p[1])}</span></span><span><button class="btn s" onclick="S.pending.splice(${i},1);draw()">Approve</button> <button class="btn d s" onclick="S.pending.splice(${i},1);draw()">Remove</button></span></div>`).join('')||'<p class="mu">None pending.</p>'}
-<h2>Executive teams</h2><div class="sc"><table>${S.teams.map((t,i)=>`<tr><td>${t.y}</td><td>${t.cur?'Current':'Archived'}</td><td>${t.cur?'':`<button class="btn o s" onclick="S.teams.forEach(x=>x.cur=false);S.teams[${i}].cur=true;draw()">Make current</button>`}</td></tr>`).join('')}</table></div>
-<div class="row" style="margin-top:8px"><input id="ty" placeholder="New session e.g. 2026/2027"><button class="btn s" style="flex:0" onclick="newTeam()">Start new team</button></div>
-<h2>Post announcement</h2><input id="nt" placeholder="Title"><textarea id="nb" rows="3" placeholder="Message"></textarea><label class="chk"><input type="checkbox" id="ne" checked> Email members</label><br><button class="btn" onclick="post()">Publish</button></div>`}};
-function newTeam(){const y=$('#ty').value.trim();if(!y)return;S.teams.forEach(t=>t.cur=false);S.teams.unshift({y,cur:true,m:[['Name to be added','President']]});draw()}
-function post(){const t=$('#nt').value.trim();if(!t)return;S.news.unshift([t,$('#nb').value,'Announcement']);draw();alert('Published (demo).')}
+function gate(t){return `<h1>${t}</h1><div class="note">${S.sess?'Your account is awaiting administrator approval. You will see this page once you are approved.':'Please <a href="#login">log in</a> or <a href="#register">register</a> to see this page.'}</div>`}
+const pub=['home','executives','staff','alumni','students','announcements'];
+function nav(){const h=(location.hash||'#home').slice(1);
+$('#nav').innerHTML=pub.map(p=>`<a href="#${p}" class="${h==p?'on':''}">${p[0].toUpperCase()+p.slice(1)}</a>`).join('')+(S.sess?`<a href="#profile" class="${h=='profile'?'on':''}">My profile</a><a href="#" onclick="logout();return false">Log out</a>`:`<a href="#login" class="${h=='login'?'on':''}">Log in</a><a href="#register" class="${h=='register'?'on':''}">Register</a>`);
+$('#who').textContent=S.prof&&S.prof.full_name?S.prof.full_name.split(' ')[0]:''}
+async function logout(){await SB.auth.signOut();S.sess=null;S.prof=null;location.hash='#home';draw()}
+async function login(admin){const e=$('#e').value.trim(),p=$('#p').value;if(!e||!p)return msg('lm','Enter your email and password.',1);
+const {error}=await SB.auth.signInWithPassword({email:e,password:p});if(error)return msg('lm',error.message,1);
+const {data}=await SB.auth.getSession();S.sess=data.session;await loadProf();
+if(admin&&!isAdmin()){await SB.auth.signOut();S.sess=null;S.prof=null;draw();return alert('This account is not an administrator.')}
+location.hash=admin?'#admin':'#home';draw()}
 function prev(i){const f=i.files[0],b=$('#rfp');b.textContent='';if(!f)return;if(f.type.startsWith('image/')){const m=document.createElement('img');m.src=URL.createObjectURL(f);m.alt='Preview';m.style.cssText='max-width:140px;border-radius:10px;display:block;margin-bottom:6px';b.appendChild(m)}b.appendChild(document.createTextNode(f.name))}
-function go(h){location.hash=h}
-function draw(keep){const h=(location.hash||'#home').slice(1);const a=document.activeElement,id=a&&a.id,pos=a&&a.selectionStart;
-$('#app').innerHTML=(V[h]||V.home)();nav();if(!keep)window.scrollTo(0,0);
-if(keep){const i=$('#app input[placeholder^="Search"]');if(i&&a&&a.tagName=='INPUT'){i.focus();i.setSelectionRange(i.value.length,i.value.length)}}}
-addEventListener('hashchange',()=>{window.q='';window.f='';draw()});draw();
+async function register(){
+const n=$('#rn').value.trim(),e=$('#re').value.trim(),p=$('#rp').value,ind=$('#ri').value.trim(),f=$('#rf').files[0];
+if(!n||!e||!ind)return msg('rm','Please fill in your name, email and indigene.',1);
+if(p.length<8)return msg('rm','Password must be at least 8 characters.',1);
+if(!f||f.size>5242880||!/^(image\/(jpeg|png|webp)|application\/pdf)$/.test(f.type))return msg('rm','Upload a JPG, PNG, WebP or PDF under 5 MB.',1);
+$('#rb').disabled=true;msg('rm','Creating your account…');
+const ext=(f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');
+const path=crypto.randomUUID()+'/indigene.'+ext;
+const up=await SB.storage.from('indigene-docs').upload(path,f,{contentType:f.type});
+if(up.error){$('#rb').disabled=false;return msg('rm','Upload failed: '+up.error.message,1)}
+const {data,error}=await SB.auth.signUp({email:e,password:p,options:{emailRedirectTo:BASE,data:{full_name:n,role_type:$('#rt').value,indigene_of:ind,indigene_doc_path:path}}});
+$('#rb').disabled=false;
+if(error)return msg('rm',error.message,1);
+if(data.user&&data.user.identities&&data.user.identities.length===0)return msg('rm','This email is already registered. Try logging in.',1);
+msg('rm','Almost done. Check your email to verify your address. After that, an administrator will approve your account.')}
+async function forgot(){const e=$('#fe').value.trim();if(!e)return;const {error}=await SB.auth.resetPasswordForEmail(e,{redirectTo:BASE});msg('fm',error?error.message:'If that email is registered, a time-limited reset link has been sent.',!!error)}
+async function newPw(){const p=$('#np').value;if(p.length<8)return msg('nm','Password must be at least 8 characters.',1);const {error}=await SB.auth.updateUser({password:p});msg('nm',error?error.message:'Password updated. You can now continue.',!!error);if(!error)setTimeout(()=>{location.hash='#home'},1200)}
+async function saveProf(){const v=id=>$('#'+id).value.trim(),c=id=>$('#'+id).checked;
+const ok=await run(SB.from('profiles').update({full_name:v('pn'),department:v('pd'),level:v('pl'),grad_year:v('py'),interests:v('pi'),career:v('pc'),bio:v('pb'),phone:v('pp'),show_details:c('ps'),share_email:c('pe'),share_phone:c('ph'),email_notifications:c('pm')}).eq('id',S.sess.user.id));
+if(ok){await loadProf();nav();msg('pmsg','Profile saved.')}}
+function flt(){const t=($('#sq')||{value:''}).value.toLowerCase(),d=($('#sf')||{value:''}).value;
+const r=S.rows.filter(x=>(!d||x.department===d)&&(!t||[x.full_name,x.department,x.interests,x.career].join(' ').toLowerCase().includes(t)));
+$('#list').innerHTML=r.map(x=>`<div class="card"><div class="av">${ini(x.full_name)}</div><b>${esc(x.full_name)}</b><div class="mu">${esc(x.department||'')} ${x.role_type=='alumni'?(x.grad_year?'· Class of '+esc(x.grad_year):''):(x.level?'· '+esc(x.level)+' Level':'')}</div>${x.interests?`<span class="tag">${esc(x.interests)}</span>`:''}${x.career?`<div class="mu">${esc(x.career)}</div>`:''}${x.email?`<div class="mu">${esc(x.email)}</div>`:''}${x.phone?`<div class="mu">${esc(x.phone)}</div>`:''}</div>`).join('')||'<p class="mu">No matches.</p>'}
+async function people(kind,title){if(!approved())return gate(title);S.rows=await q(SB.from('directory').select('*').eq('role_type',kind))||[];
+window.after=flt;const ds=[...new Set(S.rows.map(x=>x.department).filter(Boolean))];
+return `<h1>${title}</h1><div class="row"><input id="sq" placeholder="Search name, interest or career" oninput="flt()"><select id="sf" onchange="flt()"><option value="">All departments</option>${ds.map(d=>`<option>${esc(d)}</option>`).join('')}</select></div><div id="list" class="grid"></div>`}
+const V={
+home:async()=>`<div class="hero"><h1>Connecting the BIDA community at IBBUL</h1><p>A home for BIDA students, alumni, university staff and the NABS IBBUL Chapter to meet, share and grow together.</p>${S.sess?'':'<a class="btn w" href="#register">Join now</a> <a class="btn o" style="color:#fff;border-color:#fff" href="#login">Log in</a>'}</div>
+<h2>Explore</h2><div class="grid">${[['executives','NABS Executives','Meet the current team'],['staff','Staff','Mentors and lecturers'],['alumni','Alumni','Find graduates by year and field'],['students','Students','Connect with peers'],['announcements','Announcements','News and events']].map(x=>`<a class="card" style="text-decoration:none;color:inherit" href="#${x[0]}"><b>${x[1]}</b><div class="mu">${x[2]}</div></a>`).join('')}</div>`,
+executives:async()=>{const t=await q(SB.from('exec_teams').select('*').order('is_current',{ascending:false}).order('created_at',{ascending:false}))||[],m=await q(SB.from('exec_members').select('*').order('sort'))||[];
+return `<h1>NABS IBBUL Chapter Executives</h1>`+(t.map(x=>`<h2>${esc(x.session)} ${x.is_current?'<span class="tag">Current</span>':'<span class="tag" style="background:var(--bd);color:var(--mu)">Archived</span>'}</h2><div class="grid">${m.filter(y=>y.team_id===x.id).map(y=>`<div class="card"><div class="av">${ini(y.name)}</div><b>${esc(y.name)}</b><div class="mu">${esc(y.position)}</div></div>`).join('')||'<p class="mu">No members added yet.</p>'}</div>`).join('')||'<p class="mu">No executive teams yet.</p>')},
+staff:async()=>{const s=await q(SB.from('staff').select('*').order('name'))||[];return `<h1>Staff</h1><div class="grid">${s.map(x=>`<div class="card"><div class="av">${ini(x.name.replace(/^(Dr|Prof|Mrs|Mr)\.? /,''))}</div><b>${esc(x.name)}</b><div class="mu">${esc(x.title||'')}</div>${x.department?`<span class="tag">${esc(x.department)}</span>`:''}${x.contact?`<div class="mu">${esc(x.contact)}</div>`:''}</div>`).join('')||'<p class="mu">No staff added yet.</p>'}</div>`},
+alumni:()=>people('alumni','Alumni'),students:()=>people('student','Students'),
+announcements:async()=>{if(!approved())return gate('Announcements');const n=await q(SB.from('announcements').select('*').order('created_at',{ascending:false}))||[];
+return `<h1>Announcements</h1>`+(n.map(x=>`<div class="card" style="margin-bottom:10px"><span class="tag">${esc(x.kind)}</span><h3 style="margin:.3em 0">${esc(x.title)}</h3><div class="mu" style="white-space:pre-wrap">${esc(x.body||'')}</div><div class="mu">${new Date(x.created_at).toLocaleDateString()}</div></div>`).join('')||'<p class="mu">No announcements yet.</p>')},
+login:async()=>`<div class="form"><h1>Log in</h1><label>Email</label><input id="e" type="email" autocomplete="email">${pw('p','Password')}<button class="btn" onclick="login(false)">Log in</button> <a href="#forgot">Forgot password?</a><div id="lm" hidden></div></div>`,
+forgot:async()=>`<div class="form"><h1>Reset password</h1><label>Email</label><input type="email" id="fe"><button class="btn" onclick="forgot()">Send reset link</button><div id="fm" hidden></div></div>`,
+reset:async()=>`<div class="form"><h1>Choose a new password</h1>${pw('np','New password')}<button class="btn" onclick="newPw()">Save password</button><div id="nm" hidden></div></div>`,
+register:async()=>`<div class="form"><h1>Register</h1><label>Full name</label><input id="rn"><label>Email</label><input id="re" type="email" autocomplete="email"><label>I am a</label><select id="rt"><option value="student">Student</option><option value="alumni">Alumni</option><option value="staff">Staff</option></select>
+<label>Indigene of (town or LGA) *</label><input id="ri" placeholder="e.g. Bida">
+<label>Upload your indigene picture or certificate (photo or PDF, max 5 MB) *</label><input id="rf" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onchange="prev(this)"><div id="rfp" class="mu"></div>
+<div class="note">Only administrators can see this upload. It is used to verify your membership and is never shown on your public profile.</div>${pw('rp','Password (at least 8 characters)')}
+<button class="btn" id="rb" onclick="register()">Create account</button><div id="rm" hidden></div></div>`,
+profile:async()=>{if(!S.sess)return gate('My profile');const p=S.prof||{};const f=(id,l,v)=>`<label>${l}</label><input id="${id}" value="${esc(v)}">`;const c=(id,l,v)=>`<label class="chk"><input type="checkbox" id="${id}" ${v?'checked':''}> ${l}</label>`;
+return `<div class="form"><h1>My profile</h1><p class="mu">Status: <span class="tag">${esc(p.status||'unknown')}</span></p>${f('pn','Full name',p.full_name)}${f('pd','Department',p.department)}${f('pl','Level',p.level)}${f('py','Graduation year',p.grad_year)}${f('pi','Interests',p.interests)}${f('pc','Career field or goals',p.career)}<label>Short bio</label><textarea id="pb" rows="3">${esc(p.bio)}</textarea>${f('pp','Phone (optional)',p.phone)}
+<h2>Privacy</h2>${c('ps','Show my department, level, year and interests to members',p.show_details)}${c('pe','Share my email with members',p.share_email)}${c('ph','Share my phone number with members',p.share_phone)}<br>${c('pm','Email me about announcements and events',p.email_notifications)}<br>
+<button class="btn" onclick="saveProf()">Save profile</button><div id="pmsg" hidden></div></div>`},
+privacy:async()=>`<h1>Privacy</h1><p>We collect only what members provide. Emails and phone numbers are never shown unless you choose to share them. Passwords are stored hashed, never in readable text. Indigene documents are visible only to administrators.</p>`,
+guidelines:async()=>`<h1>Community guidelines</h1><p>Be respectful, keep information accurate, protect others’ privacy, and report abuse to an administrator.</p>`,
+contact:async()=>`<h1>Contact</h1><p class="mu">Add your official contact details here.</p>`,
+admin:async()=>{if(!isAdmin())return `<div class="form card admin"><h1>Admin portal</h1><div class="note">Administrators only. Sign in with your admin account.</div><label>Admin email</label><input id="e" type="email">${pw('p','Password')}<button class="btn" onclick="login(true)">Sign in</button><div id="lm" hidden></div></div>`;
+const mem=await q(SB.from('profiles').select('*').order('created_at',{ascending:false}))||[],teams=await q(SB.from('exec_teams').select('*').order('created_at',{ascending:false}))||[],ex=await q(SB.from('exec_members').select('*').order('sort'))||[],st=await q(SB.from('staff').select('*').order('name'))||[],nw=await q(SB.from('announcements').select('*').order('created_at',{ascending:false}))||[];
+mem.sort((a,b)=>(a.status=='pending'?0:1)-(b.status=='pending'?0:1));
+return `<div class="card admin"><h1>Administration</h1>
+<h2>Members (${mem.length})</h2>${mem.map(p=>`<div class="card" style="margin-bottom:8px"><b>${esc(p.full_name)}</b> <span class="tag">${esc(p.status)}</span>${p.is_admin?'<span class="tag">admin</span>':''}<div class="mu">${esc(p.email)} · ${esc(p.role_type)} · indigene: ${esc(p.indigene_of||'')}</div>${p.indigene_doc_path?`<button class="btn o s" onclick="viewDoc(this,'${esc(p.indigene_doc_path)}')">View indigene document</button> `:''}<button class="btn s" onclick="setSt('${p.id}','approved')">Approve</button> <button class="btn d s" onclick="setSt('${p.id}','suspended')">Suspend</button></div>`).join('')}
+<h2>Executive teams</h2>${teams.map(t=>`<div class="card" style="margin-bottom:8px"><b>${esc(t.session)}</b> ${t.is_current?'<span class="tag">Current</span>':`<button class="btn o s" onclick="curTeam('${t.id}')">Make current</button>`} <button class="btn d s" onclick="del('exec_teams','${t.id}')">Delete team</button>${ex.filter(m=>m.team_id===t.id).map(m=>`<div class="mu">${esc(m.name)}, ${esc(m.position)} <a href="#" onclick="del('exec_members','${m.id}');return false">remove</a></div>`).join('')}
+<div class="row"><input id="en-${t.id}" placeholder="Name"><input id="ep-${t.id}" placeholder="Position"><button class="btn s" style="flex:0" onclick="addEx('${t.id}')">Add</button></div></div>`).join('')}
+<div class="row"><input id="ts" placeholder="New session e.g. 2026/2027"><button class="btn s" style="flex:0" onclick="addTeam()">Create team</button></div>
+<h2>Staff</h2>${st.map(s=>`<div class="mu">${esc(s.name)}, ${esc(s.title||'')} <a href="#" onclick="del('staff','${s.id}');return false">remove</a></div>`).join('')}
+<div class="row"><input id="sn" placeholder="Name"><input id="stt" placeholder="Title"><input id="sd" placeholder="Department"><button class="btn s" style="flex:0" onclick="addStaff()">Add</button></div>
+<h2>Announcements</h2>${nw.map(n=>`<div class="mu">${esc(n.title)} <a href="#" onclick="del('announcements','${n.id}');return false">delete</a></div>`).join('')}
+<input id="nt" placeholder="Title"><textarea id="nb" rows="3" placeholder="Message"></textarea><select id="nk"><option>Announcement</option><option>Event</option><option>Update</option></select><button class="btn" onclick="postNews()">Publish</button>
+<div class="note">Email notifications to members are not set up yet. They need an email service added later.</div></div>`}};
+async function viewDoc(b,path){const {data,error}=await SB.storage.from('indigene-docs').createSignedUrl(path,120);if(error)return alert(error.message);b.outerHTML=`<a class="btn o s" href="${esc(data.signedUrl)}" target="_blank" rel="noopener">Open document</a> `}
+async function setSt(id,s){if(await run(SB.rpc('admin_set_status',{uid:id,new_status:s})))draw()}
+async function curTeam(id){if(await run(SB.rpc('admin_set_current_team',{team:id})))draw()}
+async function del(t,id){if(!confirm('Delete this item?'))return;if(await run(SB.from(t).delete().eq('id',id)))draw()}
+async function addTeam(){const s=$('#ts').value.trim();if(s&&await run(SB.from('exec_teams').insert({session:s})))draw()}
+async function addEx(t){const n=$('#en-'+t).value.trim(),p=$('#ep-'+t).value.trim();if(n&&p&&await run(SB.from('exec_members').insert({team_id:t,name:n,position:p})))draw()}
+async function addStaff(){const n=$('#sn').value.trim();if(n&&await run(SB.from('staff').insert({name:n,title:$('#stt').value.trim(),department:$('#sd').value.trim()})))draw()}
+async function postNews(){const t=$('#nt').value.trim();if(t&&await run(SB.from('announcements').insert({title:t,body:$('#nb').value,kind:$('#nk').value})))draw()}
+let seq=0;
+async function draw(){const my=++seq,h=(location.hash||'#home').slice(1);let html;
+try{html=await (V[h]||V.home)()}catch(e){console.error(e);html='<p>Something went wrong. Please refresh.</p>'}
+if(my!==seq)return;$('#app').innerHTML=html;nav();window.scrollTo(0,0);if(window.after){const f=window.after;window.after=null;f()}}
+addEventListener('hashchange',draw);
+SB.auth.onAuthStateChange((ev,s)=>{setTimeout(async()=>{S.sess=s;await loadProf();if(ev==='PASSWORD_RECOVERY')location.hash='#reset';draw()},0)});
+(async()=>{const {data}=await SB.auth.getSession();S.sess=data.session;await loadProf();draw()})();
 </script></body></html>
