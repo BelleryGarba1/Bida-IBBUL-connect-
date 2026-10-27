@@ -29,12 +29,15 @@ label{font-size:.88rem;font-weight:600}.row{display:flex;gap:8px;flex-wrap:wrap}
 footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem}footer a{color:var(--mu);margin:0 6px}
 </style></head><body>
 <header><div class="bar"><a class="logo" href="#home">BIDA IBBUL CONNECT</a><span id="who" class="mu"></span></div><nav id="nav"></nav></header>
-<main id="app"></main>
+<main id="app"><p class="mu">Loading…</p></main>
 <footer><a href="#privacy">Privacy</a><a href="#guidelines">Guidelines</a><a href="#contact">Contact</a><a href="#admin">Admin login</a><p>© BIDA IBBUL CONNECT</p></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"><\/script>')</script>
 <script>
 if(!window.supabase){document.getElementById('app').innerHTML='<div class="card"><b>The site could not load a required file.</b><p class="mu">Please check your internet connection, refresh the page, or try a different network.</p></div>';throw new Error('Supabase library failed to load')}
+function showErr(m){document.getElementById('app').innerHTML='<div class="card"><b>Something went wrong.</b><p class="mu">'+String(m||'Unknown error').replace(/</g,'&lt;')+'</p><p class="mu">Try refreshing the page.</p></div>'}
+addEventListener('error',e=>showErr(e.message));
+addEventListener('unhandledrejection',e=>showErr(e.reason&&e.reason.message?e.reason.message:e.reason));
 const SB=supabase.createClient('https://esjvprhomofdahmpdizl.supabase.co','sb_publishable_DP2OWoX5FS4W0PGvmMBgIA_LdVoow7e',{auth:{flowType:'pkce'}});
 const BASE=location.origin+location.pathname;
 const $=s=>document.querySelector(s);
@@ -120,9 +123,7 @@ return `<div class="card admin"><h1>Administration</h1>
 <div class="row"><input id="en-${t.id}" placeholder="Name"><input id="ep-${t.id}" placeholder="Position"><input id="ef-${t.id}" type="file" accept="image/jpeg,image/png,image/webp" title="Photo (optional)"><button class="btn s" style="flex:0" onclick="addEx('${t.id}')">Add</button></div></div>`).join('')}
 <div class="row"><input id="ts" placeholder="New session e.g. 2026/2027"><button class="btn s" style="flex:0" onclick="addTeam()">Create team</button></div>
 <h2>Staff</h2>${st.map(s=>`<div class="mu">${esc(s.name)}, ${esc(s.title||'')} <a href="#" onclick="del('staff','${s.id}');return false">remove</a></div>`).join('')}
-<div class="row"><input id="sn" placeholder="Name"><input id="stt" placeholder="Title"><input id="sd" placeholder="Department"><input id="spf" type="file" accept="image/jpeg,image/png,image/webp" title="Photo (optional)"><button class="btn s" style="flex:0" onclick="addStaff()">Add</button></div>
-<h2>Announcements</h2>${nw.map(n=>`<div class="mu">${esc(n.title)} <a href="#" onclick="del('announcements','${n.id}');return false">delete</a></div>`).join('')}
-<input id="nt" placeholder="Title"><textarea id="nb" rows="3" placeholder="Message"></textarea><select id="nk"><option>Announcemeny').select('*').eq('role_type',kind))||[];
+<div class="row"><input id="sn" placeholder="Name"><input id="stt" placeholder="Title"><input id="sd" placeholder="Department"><input id="spf" type="file" accept="image/jpeg,image/pny').select('*').eq('role_type',kind))||[];
 window.after=flt;const ds=[...new Set(S.rows.map(x=>x.department).filter(Boolean))];
 return `<h1>${title}</h1><div class="row"><input id="sq" placeholder="Search name, interest or career" oninput="flt()"><select id="sf" onchange="flt()"><option value="">All departments</option>${ds.map(d=>`<option>${esc(d)}</option>`).join('')}</select></div><div id="list" class="grid"></div>`}
 const V={
@@ -197,6 +198,4 @@ return `<div class="card admin"><h1>Administration</h1>
 <div class="row"><input id="en-${t.id}" placeholder="Name"><input id="ep-${t.id}" placeholder="Position"><input id="ef-${t.id}" type="file" accept="image/jpeg,image/png,image/webp" title="Photo (optional)"><button class="btn s" style="flex:0" onclick="addEx('${t.id}')">Add</button></div></div>`).join('')}
 <div class="row"><input id="ts" placeholder="New session e.g. 2026/2027"><button class="btn s" style="flex:0" onclick="addTeam()">Create team</button></div>
 <h2>Staff</h2>${st.map(s=>`<div class="mu">${esc(s.name)}, ${esc(s.title||'')} <a href="#" onclick="del('staff','${s.id}');return false">remove</a></div>`).join('')}
-<div class="row"><input id="sn" placeholder="Name"><input id="stt" placeholder="Title"><input id="sd" placeholder="Department"><input id="spf" type="file" accept="image/jpeg,image/png,image/webp" title="Photo (optional)"><button class="btn s" style="flex:0" onclick="addStaff()">Add</button></div>
-<h2>Announcements</h2>${nw.map(n=>`<div class="mu">${esc(n.title)} <a href="#" onclick="del('announcements','${n.id}');return false">delete</a></div>`).join('')}
-<input id="nt" placeholder="Title"><textarea id="nb" rows="3" placeholder="Message"></textarea><select id="nk"><option>Announcement</option><option>Event</option
+<div class="row"><input id="sn" placeholder="Name"><input id="stt" placeholder="Title"><input id="sd" placeholder="Department"><input id="spf" type="file" accept="image/jpeg,image/png,imag
