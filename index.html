@@ -44,13 +44,16 @@ label{font-size:.86rem;font-weight:600}.row{display:flex;gap:10px;flex-wrap:wrap
 footer{text-align:center;padding:26px 16px 34px;color:var(--mu);font-size:.85rem}footer a{color:var(--mu);margin:0 8px;text-decoration:none}footer a:hover{color:var(--pr)}
 .skel{height:14px;border-radius:8px;background:linear-gradient(90deg,var(--bd),var(--pr2),var(--bd));background-size:200% 100%;animation:sh 1.2s infinite}@keyframes sh{to{background-position:-200% 0}}
 </style></head><body>
+<script>
+function showErr(m){var a=document.getElementById('app');a.innerHTML='<div class="card"><b>Something went wrong.</b><p class="mu">'+String(m||'Unknown error').replace(/</g,'&lt;')+'</p><p class="mu">Try refreshing the page.</p></div>'}
+window.addEventListener('error',function(e){showErr(e.message)});
+window.addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.message?e.reason.message:e.reason)});
+setTimeout(function(){var a=document.getElementById('app');if(a&&a.querySelector('.skel'))a.innerHTML='<div class="card"><b>Still loading…</b><p class="mu">Check your internet connection. If this stays, your browser may be showing an old saved copy: open the site in a private tab or clear the browser cache.</p></div>'},7000);
+</script>
 <header><div class="bar"><a class="logo" href="#home"><span class="mark">B</span>BIDA IBBUL CONNECT</a><span id="who" class="mu"></span></div><nav id="nav"></nav></header>
 <main id="app"><div class="skel" style="width:60%"></div></main>
-<footer><a href="#privacy">Privacy</a><a href="#guidelines">Guidelines</a><a href="#contact">Contact</a><a href="#admin">Admin login</a><p>© BIDA IBBUL CONNECT</p></footer>
+<footer><a href="#privacy">Privacy</a><a href="#guidelines">Guidelines</a><a href="#contact">Contact</a><a href="#admin">Admin login</a><p>© BIDA IBBUL CONNECT · v3</p></footer>
 <script>
-function showErr(m){document.getElementById('app').innerHTML='<div class="card"><b>Something went wrong.</b><p class="mu">'+String(m||'Unknown error').replace(/</g,'&lt;')+'</p><p class="mu">Try refreshing the page.</p></div>'}
-addEventListener('error',e=>showErr(e.message));
-addEventListener('unhandledrejection',e=>showErr(e.reason&&e.reason.message?e.reason.message:e.reason));
 const URL_='https://esjvprhomofdahmpdizl.supabase.co',KEY='sb_publishable_DP2OWoX5FS4W0PGvmMBgIA_LdVoow7e';
 const ST={s:null};
 try{ST.s=JSON.parse(localStorage.getItem('bic.s')||'null')}catch(e){}
@@ -83,6 +86,82 @@ auth:{
 async signUp(a){const r=await api('/auth/v1/signup?redirect_to='+encodeURIComponent(a.options.emailRedirectTo),{method:'POST',json:{email:a.email,password:a.password,data:a.options.data}});
 if(r.error)return {data:{user:null},error:r.error};return {data:{user:r.data&&(r.data.user||r.data)},error:null}},
 async signInWithPassword(a){const r=await api('/auth/v1/token?grant_type=password',{method:'POST',json:{email:a.email,password:a.password}});
+if(r.error)return {error:r.error};save(mkSession(r.data));return {error:null}},
+async signOut(){if(ST.s)await api('/auth/v1/logout',{method:'POST'});save(null);return {error:null}},
+async getSession(){await tok();return {data:{session:ST.s}}},
+async resetPasswordForEmail(e,o){return api('/auth/v1/recover?redirect_to='+encodeURIComponent(o.redirectTo),{method:'POST',json:{email:e}}).then(r=>({error:r.error}))},
+async updateUser(a){return api('/auth/v1/user',{method:'PUT',json:a}).then(r=>({error:r.error}))}},
+storage:{from(bk){return {
+upload(path,file,o){return api('/storage/v1/object/'+bk+'/'+path,{method:'POST',body:file,headers:{'Content-Type':(o&&o.contentType)||file.type,'cache-control':'max-age=3600'}})},
+remove(paths){return api('/storage/v1/object/'+bk,{method:'DELETE',json:{prefixes:paths}})},
+async createSignedUrl(path,sec){const r=await api('/storage/v1/object/sign/'+bk+'/'+path,{method:'POST',json:{expiresIn:sec}});
+if(r.error)return {data:null,error:r.error};return {data:{signedUrl:URL_+'/storage/v1'+r.data.signedURL},error:null}},
+getPublicUrl(path){return {data:{publicUrl:URL_+'/storage/v1/object/public/'+bk+'/'+path}}}}}},
+functions:{invoke(name,o){return api('/functions/v1/'+name,{method:'POST',json:o&&o.body})}}
+};
+async function handleHash(){const h=location.hash;
+if(/error_description=/.test(h)){const p=new URLSearchParams(h.slice(1));history.replaceState(null,'',location.pathname);alert((p.get('error_description')||'Link error').replace(/\+/g,' '));return}
+if(!/access_token=/.test(h))return;
+const p=new URLSearchParams(h.slice(1)),at=p.get('access_token'),type=p.get('type');
+let u=null;try{const r=await fetch(URL_+'/auth/v1/user',{headers:{apikey:KEY,Authorization:'Bearer '+at}});if(r.ok)u=await r.json()}catch(e){}
+save({access_token:at,refresh_token:p.get('refresh_token'),expires_at:Math.floor(Date.now()/1000)+(parseInt(p.get('expires_in'))||3600),user:u});
+history.replaceState(null,'',location.pathname);location.hash=type==='recovery'?'#reset':'#home'}
+
+const BASE=location.origin+location.pathname;
+const $=s=>document.querySelector(s);
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ini=n=>(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const av=(n,u)=>u?`<img class="av" src="${esc(u)}" alt="${esc(n)}">`:`<div class="av">${ini(n)}</div>`;
+const S={sess:null,prof:null,rows:[]};
+const approved=()=>S.prof&&(S.prof.status==='approved'||S.prof.is_admin);
+const isAdmin=()=>S.prof&&S.prof.is_admin;
+async function q(p){const {data,error}=await p;if(error){console.error(error);return null}return data}
+async function run(p){const {error}=await p;if(error){alert(error.message);return false}return true}
+function msg(id,t,bad){const e=$('#'+id);if(!e)return;e.hidden=false;e.className='msg'+(bad?' err':'');e.textContent=t}
+async function loadProf(){S.prof=null;if(S.sess){S.prof=await q(SB.from('profiles').select('*').eq('id',S.sess.user.id).maybeSingle())}}
+function pw(id,l){return `<label>${l}</label><input id="${id}" type="password" autocomplete="off"><label class="chk"><input type="checkbox" onchange="$('#${id}').type=this.checked?'text':'password'"> Show password</label><br>`}
+function gate(t){return `<h1>${t}</h1><div class="note">${S.sess?'Your account is awaiting administrator approval. You will see this page once you are approved.':'Please <a href="#login">log in</a> or <a href="#register">register</a> to see this page.'}</div>`}
+const pub=['home','executives','staff','alumni','students','announcements'];
+function nav(){const h=(location.hash||'#home').slice(1);
+$('#nav').innerHTML=pub.map(p=>`<a href="#${p}" class="${h==p?'on':''}">${p[0].toUpperCase()+p.slice(1)}</a>`).join('')+(S.sess?`<a href="#profile" class="${h=='profile'?'on':''}">My profile</a><a href="#" onclick="logout();return false">Log out</a>`:`<a href="#login" class="${h=='login'?'on':''}">Log in</a><a href="#register" class="${h=='register'?'on':''}">Register</a>`);
+$('#who').textContent=S.prof&&S.prof.full_name?S.prof.full_name.split(' ')[0]:''}
+async function logout(){await SB.auth.signOut();S.sess=null;S.prof=null;location.hash='#home';draw()}
+async function login(admin){const e=$('#e').value.trim(),p=$('#p').value;if(!e||!p)return msg('lm','Enter your email and password.',1);
+const {error}=await SB.auth.signInWithPassword({email:e,password:p});if(error)return msg('lm',error.message,1);
+const {data}=await SB.auth.getSession();S.sess=data.session;await loadProf();
+if(admin&&!isAdmin()){await SB.auth.signOut();S.sess=null;S.prof=null;draw();return alert('This account is not an administrator.')}
+location.hash=admin?'#admin':'#home';draw()}
+function prev(i){const f=i.files[0],b=$('#rfp');b.textContent='';if(!f)return;if(f.type.startsWith('image/')){const m=document.createElement('img');m.src=URL.createObjectURL(f);m.alt='Preview';m.style.cssText='max-width:140px;border-radius:12px;display:block;margin-bottom:6px';b.appendChild(m)}b.appendChild(document.createTextNode(f.name))}
+async function register(){
+const n=$('#rn').value.trim(),e=$('#re').value.trim(),p=$('#rp').value,ind=$('#ri').value.trim(),f=$('#rf').files[0];
+if(!n||!e||!ind)return msg('rm','Please fill in your name, email and indigene.',1);
+if(p.length<8)return msg('rm','Password must be at least 8 characters.',1);
+if(!f||f.size>5242880||!/^(image\/(jpeg|png|webp)|application\/pdf)$/.test(f.type))return msg('rm','Upload a JPG, PNG, WebP or PDF under 5 MB.',1);
+$('#rb').disabled=true;msg('rm','Creating your account…');
+const ext=(f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');
+const path=crypto.randomUUID()+'/indigene.'+ext;
+const up=await SB.storage.from('indigene-docs').upload(path,f,{contentType:f.type});
+if(up.error){$('#rb').disabled=false;return msg('rm','Upload failed: '+up.error.message,1)}
+const {data,error}=await SB.auth.signUp({email:e,password:p,options:{emailRedirectTo:BASE,data:{full_name:n,role_type:$('#rt').value,indigene_of:ind,indigene_doc_path:path}}});
+$('#rb').disabled=false;
+if(error)return msg('rm',error.message,1);
+if(data.user&&data.user.identities&&data.user.identities.length===0)return msg('rm','This email is already registered. Try logging in.',1);
+msg('rm','Almost done. Check your email to verify your address. After that, an administrator will approve your account.')}
+async function forgot(){const e=$('#fe').value.trim();if(!e)return;const {error}=await SB.auth.resetPasswordForEmail(e,{redirectTo:BASE});msg('fm',error?error.message:'If that email is registered, a time-limited reset link has been sent.',!!error)}
+async function newPw(){const p=$('#np').value;if(p.length<8)return msg('nm','Password must be at least 8 characters.',1);const {error}=await SB.auth.updateUser({password:p});msg('nm',error?error.message:'Password updated. You can now continue.',!!error);if(!error)setTimeout(()=>{location.hash='#home'},1200)}
+async function saveProf(){const v=id=>$('#'+id).value.trim(),c=id=>$('#'+id).checked;
+const ok=await run(SB.from('profiles').update({full_name:v('pn'),department:v('pd'),level:v('pl'),grad_year:v('py'),interests:v('pi'),career:v('pc'),bio:v('pb'),phone:v('pp'),show_details:c('ps'),share_email:c('pe'),share_phone:c('ph'),email_notifications:c('pm')}).eq('id',S.sess.user.id));
+if(ok){await loadProf();nav();msg('pmsg','Profile saved.')}}
+function flt(){const t=($('#sq')||{value:''}).value.toLowerCase(),d=($('#sf')||{value:''}).value;
+const r=S.rows.filter(x=>(!d||x.department===d)&&(!t||[x.full_name,x.department,x.interests,x.career].join(' ').toLowerCase().includes(t)));
+const sub=x=>[x.department,x.role_type=='alumni'?(x.grad_year?'Class of '+x.grad_year:''):x.role_type=='student'?(x.level?x.level+' Level':''):''].filter(Boolean).map(esc).join(' · ');
+$('#list').innerHTML=r.map(x=>`<div class="card">${av(x.full_name)}<b>${esc(x.full_name)}</b><div class="mu">${sub(x)}</div>${x.career?`<div class="mu">${esc(x.career)}</div>`:''}${x.interests?`<span class="tag">${esc(x.interests)}</span>`:''}${x.email?`<div class="mu">✉ ${esc(x.email)}</div>`:''}${x.phone?`<div class="mu">☎ ${esc(x.phone)}</div>`:''}</div>`).join('')||'<p class="mu">No matches yet.</p>'}
+async function people(kind,title){if(!approved())return gate(title);S.rows=await q(SB.from('directory').select('*').eq('role_type',kind))||[];
+window.after=flt;const ds=[...new Set(S.rows.map(x=>x.department).filter(Boolean))];
+return `<h1>${title}</h1><div class="row"><input id="sq" placeholder="Search name, interest or career" oninput="flt()"><select id="sf" onchange="flt()"><option value="">All departments</option>${ds.map(d=>`<option>${esc(d)}</option>`).join('')}</select></div><div id="list" class="grid"></div>`}
+const V={
+home:async()=>`<section class="hero"><span class="pill">IBBUL · NABS Chapter</span><h1>Where the BIDA community connects</h1><p>Students, alumni and staff of Ibrahim Badamasi Babangida University, Lapai: meet, mentor and stay in the loop.</p><div class="cta">${S.sess?'<a class="btn w" href="#alumni">Explore alumni</a>':'<a class="btn w" href="#register">Create account</a><a class="btn g" href="#login">Log in</a>'}</div></section>
+<h2>Explore</h2><div class="grid">${[['executives','🏛️','NABS Executives','Meet the current team'],['staff','🧑‍🏫','Staff','Mentors and lecturers'],['alumni','🎓','Alumni','Graduates by year and field'],['students','👥','Students','Connect with peers'],['announcements','📣','Announcements','News and events']].map(x=>`<a class="card" href="#${x[0]}"><div class="ico">${x[1]}T',json:{email:a.email,password:a.password}});
 if(r.error)return {error:r.error};save(mkSession(r.data));return {error:null}},
 async signOut(){if(ST.s)await api('/auth/v1/logout',{method:'POST'});save(null);return {error:null}},
 async getSession(){await tok();return {data:{session:ST.s}}},
